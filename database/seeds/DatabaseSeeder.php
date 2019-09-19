@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\User;
+use App\Project;
+use App\Comment;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,5 +35,24 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'project_id' => 1,
         ]);
+
+
+		$comment = new User;
+		$user->student_id = random_int(10000, 999999);
+		$user->email = Str::random(10).'@talnet.nl';
+		$user->first_name = Str::random(5).'_fname';
+		$user->last_name = Str::random(5).'_lname';
+		$user->class_name = Str::random(5).'_7B';
+		$user->isTeacher = random_int(0, 1);
+
+
+		$project = new Project;
+		$project->name = Str::random(5).'_pname';
+		$project->slug = Str::random(5).'_slug';
+		$project->description = Str::random(100).'_pdescription';
+
+		
+		$user->projects()->save($project);
+
     }
 }
