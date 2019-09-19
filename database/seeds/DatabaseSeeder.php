@@ -31,10 +31,19 @@ class DatabaseSeeder extends Seeder
 			$project->slug = Str::random(5).'_slug';
 			$project->description = Str::random(100).'_pdescription';
 
+			$comment = new Comment;
+			$comment->comment = Str::random(50).'_comment';
+
+
+
 			$user->save();
 			$project->save();
 
+			$comment->user_id = $user->id;
+
 			$user->projects()->attach($project->id);
+			$project->comments()->save($comment);
+
 		}
     }
 }
