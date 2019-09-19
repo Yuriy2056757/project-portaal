@@ -36,4 +36,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function projects()
+    {
+        $this->belongsTo('App\Project', ' project_user', 'user_id', 'project_id');
+    }
 }
