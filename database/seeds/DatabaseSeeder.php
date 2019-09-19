@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
         DB::table('projects')->insert([
             'name' => 'Project Portaal',
             'slug' => 'project-portaal',
-            'title' => 'Project Portaal Title',
             'description' => 'Project Portaal Description',
         ]);
 
