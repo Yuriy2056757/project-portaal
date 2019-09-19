@@ -37,8 +37,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
-
+    public function projects()
+    {
+        $this->belongsTo('App\Project', ' project_user', 'user_id', 'project_id');
+    }
 	public function comments()
     {
         return $this->morphMany('App\Comment', 'commentable');
