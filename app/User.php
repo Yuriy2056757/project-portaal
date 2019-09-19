@@ -39,7 +39,7 @@ class User extends Authenticatable
 
     public function projects()
     {
-        $this->belongsTo('App\Project', ' project_user', 'user_id', 'project_id');
+        $this->belongsTo('App\Project', 'project_user', 'user_id', 'project_id');
     }
 	public function comments()
     {
