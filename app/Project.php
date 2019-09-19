@@ -12,7 +12,7 @@ class Project extends Model
 
     public function users()
     {
-        $this->belongsTo('App\User', 'project_user', 'project_id', 'user_id');
+        return $this->belongsToMany('App\User', 'project_user', 'project_id', 'user_id');
     }
 	public function comments()
     {
