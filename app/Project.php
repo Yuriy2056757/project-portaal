@@ -9,4 +9,10 @@ class Project extends Model
     protected $fillable = [
         'title', 'description'
     ];
+
+
+	public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
 }

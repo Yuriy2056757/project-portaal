@@ -17,7 +17,6 @@ class CreateProjectUserTable extends Migration
 			$table->unsignedBigInteger('user_id');
 			$table->unsignedBigInteger('project_id');
             $table->timestamps();
-			$table->softDeletes();
 
 			$table->primary(['user_id', 'project_id']);
         });
