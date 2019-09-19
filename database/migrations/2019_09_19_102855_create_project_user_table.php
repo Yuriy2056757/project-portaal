@@ -19,7 +19,7 @@ class CreateProjectUserTable extends Migration
             $table->timestamps();
 			$table->softDeletes();
 
-			$table->primary(['user_id', 'likeable_id']);
+			$table->primary(['user_id', 'project_id']);
         });
     }
 
