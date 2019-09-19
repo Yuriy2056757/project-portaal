@@ -19,5 +19,17 @@ class DatabaseSeeder extends Seeder
             'class_name' => 'OITAOO7B',
             'password' => bcrypt('password'),
         ]);
+
+        DB::table('projects')->insert([
+            'name' => 'Project Portaal',
+            'slug' => 'project-portaal',
+            'title' => 'Project Portaal Title',
+            'description' => 'Project Portaal Description',
+        ]);
+
+        DB::table('project_user')->insert([
+            'user_id' => 1,
+            'project_id' => 1,
+        ]);
     }
 }
