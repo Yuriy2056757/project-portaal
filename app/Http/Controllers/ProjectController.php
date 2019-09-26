@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\User;
 use App\Project;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ class ProjectController extends Controller
         if (Auth::user()->isTeacher) {
             return view('projects/create');
         } else{
-            return route('home');
+            return redirect(route('home'));
         }
     }
 
