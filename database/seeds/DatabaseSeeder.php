@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-		for ($i=0; $i < 20; $i++) {
+		for ($i=0; $i < 8; $i++) {
 			$user = new User;
 			$user->student_id = random_int(10000, 999999);
 			$user->email = Str::random(10).'@talnet.nl';

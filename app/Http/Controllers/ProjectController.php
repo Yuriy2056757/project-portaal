@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Project;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::all();
+        return view('projects/index', ['projects' => $projects]);
     }
 
     /**
@@ -24,7 +31,11 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::user()->isTeacher) {
+            return view('projects/create');
+        } else{
+            return route('home');
+        }
     }
 
     /**
@@ -35,7 +46,17 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'name' => ['required', 'string'],
+            'slug' => ['required', 'string'],
+            'description' => ['required', 'string'],
+        ]);
+
+        $project = new Project();
+        $project->name = $request->name;
+        $project->slug = $request->slug;
+        $project->description = $request->description;
+        $project->save();
     }
 
     /**
@@ -46,7 +67,8 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        $showProject = Project::with('users')->where('id', $project->id)->get();
+        return view('projects.show', ['project' => $showProject[0]]);
     }
 
     /**

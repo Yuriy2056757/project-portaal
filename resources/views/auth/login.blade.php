@@ -8,6 +8,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
+                    <p class="text-center">Log in of maak een account aan om je projecten te bekijken.</p>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
