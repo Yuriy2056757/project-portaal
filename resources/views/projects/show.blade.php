@@ -4,6 +4,7 @@
 	<ul>
 		<li>Naam: {{$project->name}}</li>
 		<li>Beschrijving: {{$project->description}}</li>
+		<li><a href="{{route('projects.edit',$project->id)}}">Edit Project</a></li>
 	</ul>
 
 	Leden van dit project:

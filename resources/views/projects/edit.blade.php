@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-@foreach ($errors->all() as $message)
-    <div class="alert alert-danger" role="alert">
-        {{$message}}
-    </div>
-@endforeach
+	@foreach ($errors->all() as $message)
+	    <div class="alert alert-danger" role="alert">
+	        {{$message}}
+	    </div>
+	@endforeach
 
 <h3>Project <strong>{{$project->name}}</strong> wijzigen</h3>
 <hr>
@@ -25,5 +25,10 @@
 	    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{$project->description}}</textarea>
 	</div>
 	<button type="submit" class="btn btn-primary">Update</button>
+</form>
+<form action="{{ url('projects' , $project->id ) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button class="btn btn-danger">Delete</button>
 </form>
 @endsection
