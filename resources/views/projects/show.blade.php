@@ -2,14 +2,16 @@
 
 @section('content')
 	<ul>
-		<li>Naam: {{$project->name}}</li>
-		<li>Beschrijving: {{$project->description}}</li>
+		<li>Naam: {{ $project->name }}</li>
+		<li>Beschrijving: {{ $project->description }}</li>
 	</ul>
 
 	Leden van dit project:
 	<ul>
 		@foreach($project->users as $user)
-		<li>{{$user->student_id}} - {{$user->first_name}}</li>
+			<li>{{ $user->student_id }} - {{ $user->first_name }}</li>
 		@endforeach
 	</ul>
+
+	<a href="{{ route('projects.edit', $project) }}" class="btn btn-primary">Project Bewerken</a>
 @endsection
