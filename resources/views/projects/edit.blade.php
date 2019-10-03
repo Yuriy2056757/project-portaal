@@ -24,6 +24,7 @@
 	    <label for="description">Beschrijving</label>
 	    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{$project->description}}</textarea>
 	</div>
+	<a href="{{ route('projects.show', $project) }}" class="btn btn-outline-danger">Terug</a>
 	<button type="submit" class="btn btn-primary">Update</button>
 </form>
 <form action="{{ url('projects' , $project->id ) }}" method="POST">

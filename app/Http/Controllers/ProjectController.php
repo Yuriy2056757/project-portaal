@@ -15,6 +15,15 @@ class ProjectController extends Controller
         $this->middleware('auth');
     }
 
+    public function validateRequest(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string'],
+            'slug' => ['required', 'string'],
+            'description' => ['required', 'string'],
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +32,8 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::all();
-        return view('projects/index', ['projects' => $projects]);
+
+        return view('projects.index', ['projects' => $projects]);
     }
 
     /**
@@ -34,10 +44,10 @@ class ProjectController extends Controller
     public function create()
     {
         if (Auth::user()->isTeacher) {
-            return view('projects/create');
-        } else{
-            return redirect(route('home'));
+            return view('projects.create');
         }
+
+        return redirect(route('home'));
     }
 
     /**
@@ -48,17 +58,15 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'name' => ['required', 'string'],
-            'slug' => ['required', 'string', 'unique:projects'],
-            'description' => ['required', 'string'],
-        ]);
+        $this->validateRequest($request);
 
         $project = new Project();
         $project->name = $request->name;
         $project->slug = $request->slug;
         $project->description = $request->description;
         $project->save();
+
+        return view('projects.show', compact('project'));
     }
 
     /**
@@ -69,8 +77,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $showProject = Project::with('users')->where('id', $project->id)->get();
-        return view('projects.show', ['project' => $showProject[0]]);
+        $project = Project::with('users')->where('id', $project->id)->get()->first();
+
+        return view('projects.show', compact('project'));
     }
 
     /**
@@ -81,7 +90,11 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('projects.edit')->with('project', $project);
+        if (Auth::user()->isTeacher) {
+            return view('projects.edit', compact('project'));
+        }
+
+        return redirect(route('home'));
     }
 
     /**
@@ -101,7 +114,7 @@ class ProjectController extends Controller
 
 
         $project->update($request->all());
-		return view('projects.show')->with('project', $project);
+		return view('projects.show', compact('project'));
     }
 
     /**

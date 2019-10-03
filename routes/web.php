@@ -20,3 +20,5 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('projects', 'ProjectController');
+
+Route::get('profiel', 'ProfileController@show')->name('profile.show');
