@@ -16,7 +16,7 @@
         <h6>{{$user->student_id}}</h6>
         <h5>Klas</h5>
         <h6>{{$user->class_name}}</h6>
-        <a href="#">Persoonlijke gegevens bewerken ></a>
+        <a href="{{route('profile.edit')}}">Persoonlijke gegevens bewerken ></a>
     </div>
 </div>
 <hr>
