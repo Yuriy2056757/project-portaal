@@ -43,7 +43,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        if (Auth::user()->isTeacher) {
+        if (Auth::user()->isTeacher || Auth::user()->isAdmin) {
             return view('projects.create');
         }
 
@@ -90,7 +90,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        if (Auth::user()->isTeacher) {
+        if (Auth::user()->isTeacher || Auth::user()->isAdmin) {
             return view('projects.edit', compact('project'));
         }
 
@@ -125,8 +125,12 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        $project->delete();
+		if (Auth::user()->isTeacher || Auth::user()->isAdmin)
+		{
+			$project->delete();
 
-        return redirect('projects');
+	        return redirect('projects');
+		}
+        return redirect()->back();
     }
 }
