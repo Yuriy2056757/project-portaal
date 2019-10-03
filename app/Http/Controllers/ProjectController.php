@@ -64,6 +64,8 @@ class ProjectController extends Controller
         $project->slug = $request->slug;
         $project->description = $request->description;
         $project->save();
+
+        return view('projects.show', compact('project'));
     }
 
     /**
@@ -74,9 +76,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $showProject = Project::with('users')->where('id', $project->id)->get();
+        $project = Project::with('users')->where('id', $project->id)->get()->first();
 
-        return view('projects.show', ['project' => $showProject[0]]);
+        return view('projects.show', compact('project'));
     }
 
     /**
@@ -109,6 +111,8 @@ class ProjectController extends Controller
         $project->slug = $request->slug;
         $project->description = $request->description;
         $project->save();
+
+        return view('projects.show', compact('project'));
     }
 
     /**
