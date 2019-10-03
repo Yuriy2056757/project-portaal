@@ -6,6 +6,7 @@ use Auth;
 use App\User;
 use App\Project;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -49,7 +50,7 @@ class ProjectController extends Controller
     {
         request()->validate([
             'name' => ['required', 'string'],
-            'slug' => ['required', 'string'],
+            'slug' => ['required', 'string', 'unique:projects'],
             'description' => ['required', 'string'],
         ]);
 
@@ -80,7 +81,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.edit')->with('project', $project);
     }
 
     /**
@@ -92,7 +93,15 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+		request()->validate([
+            'name' => ['required', 'string'],
+            'slug' => ['required', 'string', Rule::unique('projects')->ignore($project)],
+            'description' => ['required', 'string'],
+        ]);
+
+
+        $project->update($request->all());
+		return view('projects.show')->with('project', $project);
     }
 
     /**
