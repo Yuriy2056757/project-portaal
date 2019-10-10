@@ -20,6 +20,8 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('projects', 'ProjectController');
+Route::get('zoeken', 'ProfileController@search')->name('autocomplete');
+
 Route::get('profiel', 'ProfileController@show')->name('profile.show');
 Route::get('profiel/bewerken', 'ProfileController@edit')->name('profile.edit');
 Route::post('profiel/update', 'ProfileController@update')->name('profile.update');

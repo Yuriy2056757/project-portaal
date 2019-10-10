@@ -28,6 +28,49 @@
 	    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description') }}</textarea>
 	</div>
 
+	<div class="form-group">
+		<label for="studentSearch">Studenten toevoegen</label>
+		<input type="text" class="form-control" id="studentSearch">
+    	<small id="emailHelp" class="form-text text-muted">Zoek op naam of studenten nummer.</small>
+	</div>
+
+	<ul class="list-group" id="userList">
+	</ul>
+
 	<button type="submit" class="btn btn-primary">Aanmaken</button>
 </form>
+
+<script type="application/javascript">
+  $( function() {
+    var names = [
+    	@foreach($users as $user)
+    		'{{$user->first_name}} {{$user->last_name}}',
+    	@endforeach
+    ];
+    $( "#studentSearch" ).autocomplete({
+      source: names
+    });
+  } );
+
+//   $(document).ready(function() {
+//     $( "#studentSearch" ).autocomplete({
+
+//         source: function(request, response) {
+//             $.ajax({
+//             url: "{{route('autocomplete')}}",
+//             data: {
+//                     term : request.term
+//              },
+//             dataType: "json",
+//             success: function(data){
+//                console.log(data);
+//                $('#userList').append('<li class="list-group-item">'+data+'</li>')
+//             }
+//         });
+//     },
+//     minLength: 1
+//  });
+// });
+</script>
+
 @endsection

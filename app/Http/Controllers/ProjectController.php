@@ -44,7 +44,8 @@ class ProjectController extends Controller
     public function create()
     {
         if (Auth::user()->isTeacher || Auth::user()->isAdmin) {
-            return view('projects.create');
+            $users = User::all();
+            return view('projects.create', compact('users'));
         }
 
         return redirect(route('home'));
