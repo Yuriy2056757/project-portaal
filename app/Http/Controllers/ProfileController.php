@@ -52,11 +52,4 @@ class ProfileController extends Controller
     	$user->update($requestData);
     	return redirect()->route('profile.show');
     }
-
-    public function search(Request $request)
-    {
-        $search = $request->get('term');
-        $result = User::where('first_name', 'LIKE', '%'. $search. '%')->get();
-        return response()->json($result[0]->first_name);
-    }
 }

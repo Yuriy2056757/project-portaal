@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@csrf
+{{-- Create a session cookie where the users will be stored temporary --}}
+{{session()->put('users', [])}}
 @foreach ($errors->all() as $message)
     <div class="alert alert-danger" role="alert">
         {{$message}}
@@ -42,35 +45,28 @@
 
 <script type="application/javascript">
   $( function() {
+  	// Create an array with all the users
     var names = [
     	@foreach($users as $user)
-    		'{{$user->first_name}} {{$user->last_name}}',
+    		'{{$user->first_name}} {{$user->last_name}}, {{$user->student_id}}',
     	@endforeach
     ];
+    // Define the input field as an autocomplete field
     $( "#studentSearch" ).autocomplete({
-      source: names
+      // Use the names array as autocomplete source
+      source: names,
+      select: function (event, ui) {
+      	// Create a variable for the full name and student id
+      	var user = ui.item.label.split(", ")
+      	$('#userList').append('<li class="list-group-item">'+user[0]+'</li>')
+      	// Push the student id to the session cookie
+      	axios.post('adduser/'+user[1])
+      	// Clear the value and return false so the input field is empty again
+      	$(this).val('');
+      	return false;
+      }
     });
   } );
-
-//   $(document).ready(function() {
-//     $( "#studentSearch" ).autocomplete({
-
-//         source: function(request, response) {
-//             $.ajax({
-//             url: "{{route('autocomplete')}}",
-//             data: {
-//                     term : request.term
-//              },
-//             dataType: "json",
-//             success: function(data){
-//                console.log(data);
-//                $('#userList').append('<li class="list-group-item">'+data+'</li>')
-//             }
-//         });
-//     },
-//     minLength: 1
-//  });
-// });
 </script>
 
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\User;
 use App\Project;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -60,12 +61,17 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $this->validateRequest($request);
-
+        $users = $request->session()->get('users');
         $project = new Project();
         $project->name = $request->name;
         $project->slug = $request->slug;
         $project->description = $request->description;
         $project->save();
+
+        foreach ($users as $user) {
+            $student = User::where('student_id', $user)->get()[0];
+            $project->users()->attach($student->id);
+        }
 
         return view('projects.show', compact('project'));
     }
@@ -78,7 +84,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $project = Project::with('users')->where('id', $project->id)->get()->first();
+        $project = Project::with('users', 'comments')->where('id', $project->id)->get()->first();
+        foreach ($project->comments as $key => $comment) {
+            $project->comments[$key]['time_diff'] = $comment->created_at->diffForHumans();
+        }
 
         return view('projects.show', compact('project'));
     }
@@ -113,7 +122,6 @@ class ProjectController extends Controller
             'description' => ['required', 'string'],
         ]);
 
-
         $project->update($request->all());
 		return view('projects.show', compact('project'));
     }
@@ -133,5 +141,11 @@ class ProjectController extends Controller
 	        return redirect('projects');
 		}
         return redirect()->back();
+    }
+
+    public function addUser($id)
+    {
+        session()->push('users', $id);
+        return $id;
     }
 }
